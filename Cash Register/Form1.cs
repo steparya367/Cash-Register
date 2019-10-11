@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Threading;
+using System.Media;
 
 namespace Cash_Register
 {
@@ -56,9 +57,6 @@ namespace Cash_Register
             {
 
             }
-
-
-
         }
 
         private void PrintrecieptButton_Click(object sender, EventArgs e)
@@ -66,36 +64,39 @@ namespace Cash_Register
             try
             {
                 //Graphics Settings
+                SoundPlayer Dot = new SoundPlayer(Properties.Resources.dot);
                 Graphics g = this.CreateGraphics();
                 Font receiptFont = new Font("consolas", 10);
-                SolidBrush RecieptBrush = new SolidBrush(Color.White);
+                SolidBrush RecieptBrush = new SolidBrush(Color.Black);
 
                 //The Reciept 
+                Dot.Play();
                 g.DrawString("Bob's Burger", receiptFont, RecieptBrush, 650, 70);
 
                 Thread.Sleep(500); 
 
-               g.DrawString("Burgers x" + numOfBurgers + " " + BURGER_PRICE.ToString("C"), receiptFont,RecieptBrush,650,95);
+               g.DrawString("Burgers x " + numOfBurgers + "   " + BURGER_PRICE.ToString("C"), receiptFont,RecieptBrush,650,95);
 
                 Thread.Sleep(500);
 
-                g.DrawString("Fries x " + numOfFries + " " + FRIES_PRICE.ToString("C"), receiptFont, RecieptBrush, 650, 110);
+                g.DrawString("Fries x " + numOfFries + "     " + FRIES_PRICE.ToString("C"), receiptFont, RecieptBrush, 650, 110);
 
                 Thread.Sleep(500);
 
-                g.DrawString("Drink x " + numOfDrink + " " + DRINK_PRICE.ToString("C"), receiptFont, RecieptBrush, 650, 130);
+                g.DrawString("Drink x " + numOfDrink + "     " + DRINK_PRICE.ToString("C"), receiptFont, RecieptBrush, 650, 130);
+                Dot.Play();
+                Thread.Sleep(500);
+
+                g.DrawString("Subtotal " + subTotal.ToString("C"), receiptFont, RecieptBrush, 650, 150);
 
                 Thread.Sleep(500);
 
-                g.DrawString("Subtotal x " + subTotal + " " + subTotal.ToString("C"), receiptFont, RecieptBrush, 650, 150);
+                g.DrawString("Tax      " + totalTax.ToString("C"), receiptFont, RecieptBrush, 650, 170);
 
                 Thread.Sleep(500);
 
-                g.DrawString("Tax x " + tax + " " + totalTax.ToString("C"), receiptFont, RecieptBrush, 650, 160);
-
-                Thread.Sleep(500);
-
-                //g.DrawString("Total x " + totalPrice + " " + totalPrice.ToString("C"), receiptFont, RecieptBrush, 340, 95);
+                g.DrawString("Total    " + totalPrice.ToString("C"), receiptFont, RecieptBrush, 650, 190);
+                
             }
             catch
             {
@@ -105,6 +106,29 @@ namespace Cash_Register
 
         private void NeworderButton_Click(object sender, EventArgs e)
         {
+            //Graphics settings
+
+            Graphics g = this.CreateGraphics();
+
+            //clearing recieipt 
+
+            g.Clear(Color.LightCoral);
+
+            //resetting textbox value 
+
+            burgerBox.Text = "";
+            friesBox.Text = "";
+            drinkBox.Text = "";
+
+            //resting variables
+            numOfBurgers = 0;
+            numOfFries = 0;
+            numOfDrink = 0;
+
+            //resetting labels to show no amount so a new order can be placed 
+
+            displayLabel.Text = "";
+            
 
         }
     }
